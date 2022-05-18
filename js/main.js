@@ -10,6 +10,7 @@ const tileContainer = document.querySelector('.js-container');
 function resetGame(text) {
     alert(text);
     sequence = [];
+    humanSequence = [];
     level = 0;
     startButton.classList.remove('hidden');
     heading.textContent = 'Simon Game';
@@ -19,7 +20,7 @@ function resetGame(text) {
 
 function humanTurn(level) {
     tileContainer.classList.remove('unclickable');
-    info.textContent = 'Your turn: ${level} Tap${level > 1 ? 's' : ''}';
+    info.textContent = `Your turn: ${level} Tap${level > 1 ? 's' : ''}`;
 }
 
 function activateTile(color) {
@@ -54,7 +55,7 @@ function nextRound() {
 
     tileContainer.classList.add('unclickable');
     info.textContent = 'Wait for the computer';
-    heading.textContent = 'Level ${level} of 20';
+    heading.textContent = `Level ${level} of 20`;
 
     const nextSequence = [...sequence];
     nextSequence.push(nextStep());
@@ -66,15 +67,15 @@ function nextRound() {
     }, level * 600 + 1000);
 }
 
-function handleclick(tile) {
+function handleClick(tile) {
     const index = humanSequence.push(tile) - 1;
     const sound = document.querySelector(`[data-sound='${tile}']`);
     sound.play();
 
-    const remainiongTaps = sequence.length - humanSequence.length;
+    const remainingTaps = sequence.length - humanSequence.length;
 
     if (humanSequence[index] !== sequence[index]) {
-        resetGame('OOps! Game over, you pressed the wrong tile');
+        resetGame('Oops! Game over, you pressed the wrong tile');
         return;
     }
 
@@ -92,8 +93,7 @@ function handleclick(tile) {
         return;
     }
 
-    info.textContent = `Your turn: ${remainingTaps} Tap${' +
-    'remainingTaps > ? 's' : ''
+    info.textContent = `Your turn: ${remainingTaps} Tap${remainingTaps > 1 ? 's' : ''
     }`;
 }
 
@@ -109,7 +109,7 @@ tileContainer.addEventListener('click', event => {
     const { tile } = event.target.dataset;
 
     if (tile) handleClick(tile);
-})
+});
 
 
 
